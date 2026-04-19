@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from './store/useAuthStore'
 import Layout from './components/ui/Layout'
 import Login from './pages/Login'
@@ -11,10 +11,16 @@ import FanScore from './pages/FanScore'
 import ExitRouting from './pages/ExitRouting'
 import Alerts from './pages/Alerts'
 import AdminDashboard from './pages/AdminDashboard'
+import Landing from './pages/Landing'
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated)
-  return isAuthenticated ? children : <Navigate to="/login" replace />
+  const location = useLocation()
+  
+  if (isAuthenticated) return children;
+  if (location.pathname === '/') return <Landing />;
+  
+  return <Navigate to="/login" replace />
 }
 
 export default function App() {

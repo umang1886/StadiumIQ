@@ -36,15 +36,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        from flask import render_template_string
-        frontend_url = app.config.get('FRONTEND_URL', '#')
-        return render_template_string('''
-            <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-                <h1>StadiumIQ API Server</h1>
-                <p>The backend is running successfully!</p>
-                <p>This service only handles API requests. To view the application UI, please visit the frontend URL.</p>
-                <a href="{{ frontend_url }}" style="color: #0ea5e9;">Go to Frontend</a>
-            </div>
-        ''', frontend_url=frontend_url)
+        from flask import redirect
+        return redirect(app.config.get('FRONTEND_URL', 'http://localhost:5173'))
 
     return app
